@@ -1,7 +1,11 @@
 <template>
   <div class="index">
     <header-name myfathermsg="this is my father msg!" v-on:my-event="myEventClick"></header-name>
-    <div class="middle_" v-on:click="goPage">{{ msg }}</div>
+    <div class="middle_" v-on:click="goPage">
+
+      <button>{{msg}}</button>
+
+    </div>
     <footer-name></footer-name>
   </div>
 </template>
@@ -57,5 +61,22 @@
     background-color: darkgoldenrod;
     color: #fff;
     font-size: 50px;
+  }
+  .middle_ button{
+    padding: 5px;
+    font-size: 18px;
+    border-radius: 4px;
+    border:0;
+    background-color: #fff;
+    cursor:pointer;
+  }
+  .middle_ button:active{
+    background-color: #ccc;
+  }
+  a,button,input{
+  /*  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    -webkit-user-modify: read-write-plaintext-only;*/
+    outline: none;
+    box-shadow: none;
   }
 </style>
