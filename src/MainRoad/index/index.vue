@@ -2,9 +2,10 @@
   <div class="index">
     <header-name myfathermsg="this is my father msg!" v-on:my-event="myEventClick"></header-name>
     <div class="middle_" v-on:click="goPage">
+      <button @click="$store.commit('add')">+</button>
+      <button>{{$store.state.count}}</button>
 
-      <button>{{msg}}</button>
-
+      <button @click="$store.commit('reduce')">-</button>
     </div>
     <footer-name></footer-name>
   </div>
@@ -13,7 +14,7 @@
 <script>
   import HeaderName from '../../components/header';
   import FooterName from '../../components/footer';
-
+  import store from '../../store/index'
   export default {
     name: 'index',
     data () {
@@ -24,7 +25,7 @@
     components:{HeaderName,FooterName},
     methods:{
       goPage:function () {
-        window.location.hash = '/page'
+       // window.location.hash = '/page'
       },
       myEventClick:function (msg) {
        this.msg = msg;
