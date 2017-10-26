@@ -13,6 +13,7 @@
 <script>
   import HeaderName from '../../components/header';
   import FooterName from '../../components/footer';
+
   export default {
     name: 'index',
     data () {
@@ -26,7 +27,7 @@
         window.location.hash = '/page'
       },
       myEventClick:function (msg) {
-       this.msg = this.msg+msg;
+       this.msg = msg;
       }
     }
   }

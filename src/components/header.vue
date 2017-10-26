@@ -16,7 +16,7 @@
     methods: {
       onHeaderClick:function (){
         //alert(this.myfathermsg); //父组件向子组件通信
-        this.$emit('my-event',this.msg)  //子组件给父组件通信
+        this.$emit('my-event',this.msg);  //子组件给父组件通信
       }
     }
   }
