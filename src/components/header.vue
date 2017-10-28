@@ -1,6 +1,11 @@
 <template>
-  <div class="header_" v-on:click="onHeaderClick">
-    <h1>{{ msg }}</h1>
+  <div class="header_" >
+   <div v-on:click="$store.dispatch('switch_dialog')">
+     <h1 v-show="$store.state.headerVuex.show">{{ msg }}</h1>
+   </div>
+    <div>
+      <button v-on:click="onHeaderClick">测试</button>
+    </div>
   </div>
 </template>
 

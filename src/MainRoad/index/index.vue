@@ -1,34 +1,46 @@
 <template>
   <div class="index">
     <header-name myfathermsg="this is my father msg!" v-on:my-event="myEventClick"></header-name>
-    <div class="middle_" v-on:click="goPage">
-      <button @click="$store.commit('add')">+</button>
-      <button>{{$store.state.count}}</button>
-
-      <button @click="$store.commit('reduce')">-</button>
+    <div class="middle_" >
+      <div>
+        <button @click="$store.commit('add')">+</button>
+        <button v-on:click="goPage">{{$store.state.count}}</button>
+        <button @click="$store.commit('reduce')">-</button>
+      </div>
+     <div>
+       <span>{{msg}}</span>
+       <span>{{reMsg}}</span>
+     </div>
     </div>
     <footer-name></footer-name>
   </div>
 </template>
 
 <script>
-  import HeaderName from '../../components/header';
-  import FooterName from '../../components/footer';
-  import store from '../../store/index'
+  import HeaderName from '@/components/header';
+  import FooterName from '@/components/footer';
+  import store from '@/store/index'
   export default {
     name: 'index',
     data () {
       return {
-        msg: 'this is index'
+        msg: 'this is index',
+        num_:0
       }
     },
     components:{HeaderName,FooterName},
     methods:{
       goPage:function () {
-       // window.location.hash = '/page'
+        window.location.hash = '/page'
       },
       myEventClick:function (msg) {
        this.msg = msg;
+       console.log(this.msg)
+      }
+    },
+    computed:{
+      reMsg:function () {
+        return this.msg.split('').reverse().join('')
       }
     }
   }
@@ -57,12 +69,15 @@
   }
   .middle_{
     width: 100%;
-    height: 300px;
+    height: 200px;
     text-align: center;
-    line-height: 300px;
+    line-height: 200px;
     background-color: darkgoldenrod;
     color: #fff;
     font-size: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
   }
   .middle_ button{
     padding: 5px;

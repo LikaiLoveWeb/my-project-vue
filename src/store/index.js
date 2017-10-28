@@ -3,11 +3,9 @@
  */
 import Vue from 'vue'
 import vuex from 'vuex'
+import header_vuex from '@/components/header_vuex'
 Vue.use(vuex);
 
-const state = {
-  count:1
-};
 const mutations={
   add(state){
     state.count+=1;
@@ -17,7 +15,11 @@ const mutations={
   }
 };
 export default new vuex.Store({
-  state,
-  mutations
+  state:{
+    count:1
+  },
+  mutations,
+  modules: {
+    headerVuex: header_vuex
+  }
 })
-
