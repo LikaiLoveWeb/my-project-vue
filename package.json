@@ -9,6 +9,9 @@
     "start": "npm run dev",
     "build": "node build/build.js"
   },
+  "config": {
+    "APIUrl":"http://192.168.10.155:8090"
+  },
   "dependencies": {
     "fs": "0.0.1-security",
     "vue": "^2.5.2",
