@@ -1,7 +1,7 @@
 'use strict'
-const path = require('path')
-const utils = require('./utils')
-const config = require('../config')
+const path = require('path');
+const utils = require('./utils');
+const config = require('../config');
 const vueLoaderConfig = require('./vue-loader.conf');
 const glob = require('glob');
 const pkg=require("../package.json");
@@ -76,8 +76,6 @@ let file_js = getEntry(resolve('src')+'/apps/js/**/*.js', resolve('src')+'/apps/
 let file_html = getEntry('./src/apps/html/**/*.html', './src/apps/html/');
 //获取路由路径
 let pages = Object.keys(file_html);
-
-
 let output = {
   /*
    *  determines the location on disk the files are written to
@@ -161,7 +159,7 @@ let HtmlWebpackPluginArray = [
    * （公共js）
    * */
   new webpack.optimize.CommonsChunkPlugin(
-    {names: ["common", "webpackAssets"]}
+    {names: ["common"]}
   ),
 
 
@@ -178,6 +176,7 @@ let HtmlWebpackPluginArray = [
   new HtmlWebpackPlugin({
     filename: 'index.html',
     template: resolve('src') + '/index.html',
+
     /*
      * inject: true | 'head' | 'body' | false Inject all assets into the given template or templateContent -
      * When passing true or 'body' all javascript resources will be placed at the bottom of the body element.
@@ -186,8 +185,8 @@ let HtmlWebpackPluginArray = [
     inject: 'body',
 
     // 需要依赖的模块
-    chunks: ['common', 'index', 'webpackAssets'],
-
+    chunks: ['common'],
+    hasg:true,
     // 根据依赖自动排序
     chunksSortMode: 'dependency',
     minify: {
@@ -204,10 +203,17 @@ let HtmlWebpackPluginArray = [
 ];
 //html 模板插件
 pages.forEach(function(pathname) {
+  pathname = pathname.replace("\\",'/');
   let conf = {
     filename: 'html/' + pathname + '.html', //生成的html存放路径，相对于path
     template: resolve('src')+'/apps/html/' + pathname + '.html', //html模板路径
-    inject: false,
+    inject: true,
+    hasg:true,
+    // 需要依赖的模块
+    chunks: ['common',pathname],
+
+    // 根据依赖自动排序
+    chunksSortMode: 'dependency',
     // template: path.resolve(__dirname, './src/index.html'), //html模板路径
     // favicon:'./src/img/imglogo.ico', //favicon路径
     // inject: 'body',
