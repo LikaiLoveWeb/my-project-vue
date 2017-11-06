@@ -7,7 +7,8 @@
   "scripts": {
     "dev": "node build/dev-server.js",
     "start": "npm run dev",
-    "build": "node build/build.js"
+    "clean-node_modules": "node npm-scripts/del-node_modules.script.js",
+    "build": "node npm-scripts/del-build.script.js && node build/build.js"
   },
   "config": {
     "APIUrl":"http://192.168.10.155:8090"

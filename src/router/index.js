@@ -24,7 +24,7 @@ $.each(paths,function (k,v) {
     path: '/'+v,
     name: v.split('/')[1],
     component: require('@/apps/js/'+v)
-  };
+};
   routes.push(page)
 });
 console.log(routes);

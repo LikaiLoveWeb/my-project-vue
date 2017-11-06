@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 const path = require('path');
 const utils = require('./utils');
 const config = require('../config');
@@ -54,6 +54,7 @@ function getEntry(globPath, pathDir) {
     if(pathname.startsWith(pathDir)){
       pathname = pathname.substring(pathDir.length)
     }
+    pathname = pathname.replace('\\','/');
     entries[pathname] = [entry];
   }
   return entries;
@@ -74,6 +75,7 @@ let file_js = getEntry(resolve('src')+'/apps/js/**/*.js', resolve('src')+'/apps/
 
 //获取多模块入口html文件
 let file_html = getEntry('./src/apps/html/**/*.html', './src/apps/html/');
+//console.log(file_html);
 //获取路由路径
 let pages = Object.keys(file_html);
 let output = {
@@ -87,7 +89,7 @@ let output = {
    * The publicPath specifies the public URL address of the output files when referenced in a browser
    * （发布后，资源的引用目录）
    * */
-  publicPath: "",
+  publicPath: "../../",
 
   /*
    * Specifies the name of each output file on disk
@@ -159,7 +161,7 @@ let HtmlWebpackPluginArray = [
    * （公共js）
    * */
   new webpack.optimize.CommonsChunkPlugin(
-    {names: ["common"]}
+    {names: ["common",'index']}
   ),
 
 
@@ -176,7 +178,7 @@ let HtmlWebpackPluginArray = [
   new HtmlWebpackPlugin({
     filename: 'index.html',
     template: resolve('src') + '/index.html',
-
+    favicon:resolve('src')+'/apps/img/logo.png', //favicon路径
     /*
      * inject: true | 'head' | 'body' | false Inject all assets into the given template or templateContent -
      * When passing true or 'body' all javascript resources will be placed at the bottom of the body element.
@@ -185,11 +187,11 @@ let HtmlWebpackPluginArray = [
     inject: 'body',
 
     // 需要依赖的模块
-    chunks: ['common'],
+    chunks: ['common','index'],
     hasg:true,
     // 根据依赖自动排序
     chunksSortMode: 'dependency',
-    minify: {
+/*    minify: {
       removeComments: true,//移除HTML中的注释
       collapseWhitespace: true,//删除空白符与换行符
       collapseInlineTagWhitespace: true,//display:inline;折叠时不要在元素之间留下任何空格。
@@ -198,12 +200,12 @@ let HtmlWebpackPluginArray = [
       removeEmptyAttributes: true,//使用仅含空格的值删除所有属性
       removeStyleLinkTypeAttributes: true,//type="text/css"从中删除style和link标记。其他type属性值保持不变
       keepClosingSlash: true//在单体元素上保持斜线
-    }
+    }*/
   })
 ];
 //html 模板插件
 pages.forEach(function(pathname) {
-  pathname = pathname.replace("\\",'/');
+  //pathname = pathname.replace("\\",'/');
   let conf = {
     filename: 'html/' + pathname + '.html', //生成的html存放路径，相对于path
     template: resolve('src')+'/apps/html/' + pathname + '.html', //html模板路径
@@ -227,11 +229,11 @@ pages.forEach(function(pathname) {
      * 另外，UglifyJsPlugin会在压缩代码的时候连同html一起压缩。
      * 为避免压缩html，需要在html-loader上配置'html?-minimize'，见loaders中html-loader的配置。
      */
-    minify: { //压缩HTML文件
+/*    minify: { //压缩HTML文件
       removeComments: true, //移除HTML中的注释
       collapseWhitespace: true,//删除空白符与换行符
       collapseInlineTagWhitespace: true//display:inline;折叠时不要在元素之间留下任何空格。
-    }
+    }*/
   };
   HtmlWebpackPluginArray.push(new HtmlWebpackPlugin(conf));
 });
@@ -241,12 +243,14 @@ module.exports = {
   entry: entry,
   output: output,
   resolve: {
-    extensions: ['.js', '.vue', '.json','html'],
+    extensions: ['.js', '.vue', '.json','html','less','sass','css'],
     alias: {
       'vue$': 'vue/dist/vue.esm.js',
       '@': resolve('src'),
       'jquery': path.join(resolve('libs'), "js/jquery/jquery.min.js"),
       'lodash': path.join(resolve('libs'), "js/lodash.min.js"),
+
+      indexMineCss:path.join(resolve('src'), "css/index/index.less"),
     }
   },
   module: {
@@ -259,18 +263,19 @@ module.exports = {
       {
         test: /\.js$/,
         loader: 'babel-loader',
-        include: [resolve('src'), resolve('test')]
+        include: resolve('src')  // 指定匹配文件的范围
       },
       {
-        test: /\.less$/,
-        loader: 'style-loader!css-loader!autoprefixer-loader!less-loader'
+        test: /\.(less|css|sass)(\?.*)?$/,
+        loader: 'style-loader!css-loader!autoprefixer-loader!less-loader!sass-loader',
+        include: resolve('src')  // 指定匹配文件的范围
       },
       {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
         loader: 'url-loader',
         options: {
           limit: 10000,
-          name: utils.assetsPath('img/[name].[hash:7].[ext]')
+          name: utils.assetsPath('img/[name].[ext]')// name: '/img/[name].[ext]'
         }
       },
       {
@@ -278,7 +283,7 @@ module.exports = {
         loader: 'url-loader',
         options: {
           limit: 10000,
-          name: utils.assetsPath('media/[name].[hash:7].[ext]')
+          name: utils.assetsPath('media/[name].[ext]')
         }
       },
       {
@@ -286,7 +291,7 @@ module.exports = {
         loader: 'url-loader',
         options: {
           limit: 10000,
-          name: utils.assetsPath('fonts/[name].[hash:7].[ext]')
+          name: utils.assetsPath('fonts/[name].[ext]')
         }
       }
     ]
