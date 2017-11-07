@@ -89,7 +89,7 @@ let output = {
    * The publicPath specifies the public URL address of the output files when referenced in a browser
    * （发布后，资源的引用目录）
    * */
-  publicPath: "../../",
+  publicPath: "./",
 
   /*
    * Specifies the name of each output file on disk
@@ -125,7 +125,7 @@ _.forEach(tempKeys,function (value) {
  * */
 let entry = Object.assign(tempArray, {
   // 路由入口
-  index: ['./src/main.js'],
+  index: [resolve('src')+'\\main'],
   // 用到什么公共lib（例如jquery.js），就把它加进common去，目的是将公用库单独提取打包
   common: ['vue','vue-router','jquery','lodash']
 });
@@ -169,7 +169,7 @@ let HtmlWebpackPluginArray = [
    * extract css
    * （提取css文件到单独的文件中）
    */
-  new ExtractTextPlugin("css/[name].css", {allChunks: true}),
+  //new ExtractTextPlugin("css/[name].css", {allChunks: true}),
 
   /*
    *create html file
@@ -177,7 +177,7 @@ let HtmlWebpackPluginArray = [
    * */
   new HtmlWebpackPlugin({
     filename: 'index.html',
-    template: resolve('src') + '/index.html',
+    template: resolve('/')+'./index.html',
     favicon:resolve('src')+'/apps/img/logo.png', //favicon路径
     /*
      * inject: true | 'head' | 'body' | false Inject all assets into the given template or templateContent -
@@ -266,13 +266,14 @@ module.exports = {
         include: resolve('src')  // 指定匹配文件的范围
       },
       {
-        test: /\.(less|css|sass)(\?.*)?$/,
+        test: /\.(less)(\?.*)?$/,
         loader: 'style-loader!css-loader!autoprefixer-loader!less-loader!sass-loader',
         include: resolve('src')  // 指定匹配文件的范围
       },
       {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
         loader: 'url-loader',
+        include: resolve('src'),  // 指定匹配文件的范围
         options: {
           limit: 10000,
           name: utils.assetsPath('img/[name].[ext]')// name: '/img/[name].[ext]'
