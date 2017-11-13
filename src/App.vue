@@ -10,7 +10,7 @@ export default {
 }
 </script>
 
-<style>
+<style rel="stylesheet/less" lang="less" scoped>
   blockquote, body, button, dd, dl, dt, fieldset, form, h1, h2, h3, h4, h5, h6, hr, input, legend, li, ol, p, pre, td, textarea, th, ul {
     margin: 0;
     padding: 0;

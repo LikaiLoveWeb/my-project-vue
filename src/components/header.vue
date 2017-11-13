@@ -28,9 +28,16 @@
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<style scoped lang="less" rel="stylesheet/less">
+  body,html{
+    margin: 0;
+    padding: 0;
+    border:0;
+  }
+  @code:red;
   h1, h2 {
     font-weight: normal;
+    background-color: @code;
   }
 
   ul {
@@ -50,11 +57,13 @@
   }
   .header_{
     width: 100%;
-    height: 80px;
     text-align: center;
-    line-height: 80px;
     font-size: 22px;
     background-color: cadetblue;
     color: #fff;
+    overflow: hidden;
+  }
+  .header_ div{
+    display: inline-block;
   }
 </style>

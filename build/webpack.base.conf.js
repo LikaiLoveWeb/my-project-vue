@@ -5,10 +5,42 @@ const config = require('../config');
 const vueLoaderConfig = require('./vue-loader.conf');
 const _ = require('../libs/js/lodash.min');
 const webpack = require('webpack');
+const glob = require('glob');
 
 function resolve (dir) {
   return path.join(__dirname, '..', dir)
 }
+
+/**
+ * 获得路径
+ * @param globPath: str
+ * @param pathDir: str 对比路径
+ * @returns {{}}
+ */
+function getEntry(globPath, pathDir) {
+  let files = glob.sync(globPath);
+  let entries = {},
+    entry, dirname, basename, pathname, extname;
+
+  for (let i = 0; i < files.length; i++) {
+    entry = files[i];
+    dirname = path.dirname(entry);
+    extname = path.extname(entry);
+    basename = path.basename(entry, extname);
+    pathname = path.normalize(path.join(dirname,  basename));
+    pathDir = path.normalize(pathDir);
+    if(pathname.startsWith(pathDir)){
+      pathname = pathname.substring(pathDir.length)
+    }
+    entries[pathname] = [entry];
+  }
+  return entries;
+}
+//获取多模块入口html文件
+const file_vue = getEntry(resolve('src')+'/MainRoad/**/*.vue', resolve('src')+'./src/MainRoad/');
+//获取路由路径
+const pages = Object.keys(file_vue);
+console.log(pages);
 
 module.exports = {
   entry: {
@@ -32,6 +64,13 @@ module.exports = {
   },
   module: {
     rules: [
+      {
+        test: /\.css$/,
+        loaders: ['style', 'css', 'autoprefixer']
+      }, {
+        test: /\.less/,
+        loaders: ['style', 'css', 'autoprefixer', 'less'],
+      },
       {
         test: /\.vue$/,
         loader: 'vue-loader',

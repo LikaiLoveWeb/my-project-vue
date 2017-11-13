@@ -2,15 +2,10 @@
   <div class="index">
     <header-name myfathermsg="this is my father msg!" v-on:my-event="myEventClick"></header-name>
     <div class="middle_" >
-      <div>
-        <button @click="$store.commit('add')">+</button>
-        <button v-on:click="goPage">{{$store.state.count}}</button>
-        <button @click="$store.commit('reduce')">-</button>
+      <div class="NotFound">
+       <span>404---></span>
+        <div>倒计时{{setIntervalMsg}}s，返回首页</div>
       </div>
-     <div>
-       <span>{{msg}}</span>
-       <span>{{reMsg}}</span>
-     </div>
     </div>
     <footer-name></footer-name>
   </div>
@@ -21,19 +16,34 @@
   import FooterName from '@/components/footer';
   import store from '@/store/index'
   export default {
-    name: 'index',
+    name: 'NotFound',
     data () {
       return {
         msg: 'this is index',
-        num_:0
+        num_:0,
+        setIntervalMsg:30
       }
     },
     components:{HeaderName,FooterName},
     mounted:function () {
+        let that = this;
       console.log($('div'),'测试jquery 是否引入成功');
       let code = false;
       if(_.isEmpty(code)){
-        console.log('测试是否引入lodash插件')
+        console.log('测试是否引入lodash插件');
+        let code = setInterval(function () {
+          that.setIntervalMsg = Number(that.setIntervalMsg);
+          that.setIntervalMsg--;
+          if(that.setIntervalMsg<10&&that.setIntervalMsg>0){
+              that.setIntervalMsg = '0'+that.setIntervalMsg;
+          }
+          if(that.setIntervalMsg<=0){
+              clearInterval(code);//清除定时器
+            setTimeout(function () {
+              window.location.href='/'
+            },1000)
+          }
+        },1000)
       }
     },
     methods:{
@@ -41,8 +51,8 @@
         window.location.hash = '/page'
       },
       myEventClick:function (msg) {
-       this.msg = msg;
-       console.log(this.msg)
+        this.msg = msg;
+        console.log(this.msg)
       }
     },
     computed:{
@@ -54,10 +64,8 @@
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped lang="less" rel="stylesheet/less"> //增加[rel="stylesheet/less"]编辑器就不会报错了
-@code:red;
-
-
+<style scoped lang="less" rel="stylesheet/less">
+  @base_: #f938ab;
   h1, h2 {
     font-weight: normal;
   }
@@ -81,8 +89,8 @@
     height: 200px;
     text-align: center;
     line-height: 200px;
-    background-color: darkgoldenrod;
     color: #fff;
+    background-color: @base_;
     font-size: 50px;
     display: flex;
     align-items: center;
@@ -100,9 +108,17 @@
     background-color: #ccc;
   }
   a,button,input{
-  /*  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-    -webkit-user-modify: read-write-plaintext-only;*/
+    /*  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+      -webkit-user-modify: read-write-plaintext-only;*/
     outline: none;
     box-shadow: none;
+  }
+  .NotFound{
+    text-align: center;
+    line-height: inherit;
+    height:100%;
+  }
+  .NotFound *{
+    display: inline-block;
   }
 </style>
