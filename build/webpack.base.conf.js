@@ -44,7 +44,10 @@ console.log(pages);
 
 module.exports = {
   entry: {
-    app: './src/main.js'
+    app: './src/main.js',
+    common: [
+      'jquery','lodash'
+    ]
   },
   output: {
     path: config.build.assetsRoot,

@@ -10,7 +10,7 @@ const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
 // add hot-reload related code to entry chunks
 Object.keys(baseWebpackConfig.entry).forEach(function (name) {
   baseWebpackConfig.entry[name] = ['./build/dev-client'].concat(baseWebpackConfig.entry[name])
-})
+});
 
 module.exports = merge(baseWebpackConfig, {
   module: {
@@ -29,7 +29,9 @@ module.exports = merge(baseWebpackConfig, {
     new HtmlWebpackPlugin({
       filename: 'index.html',
       template: 'index.html',
-      inject: true
+      inject: true,
+      // 需要依赖的模块
+      chunks: ['common'],
     }),
     new webpack.ProvidePlugin({
       $: "jquery",
@@ -39,4 +41,4 @@ module.exports = merge(baseWebpackConfig, {
     }),
     new FriendlyErrorsPlugin()
   ]
-})
+});
