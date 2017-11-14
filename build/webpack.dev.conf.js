@@ -31,7 +31,7 @@ module.exports = merge(baseWebpackConfig, {
       template: 'index.html',
       inject: true,
       // 需要依赖的模块
-      chunks: ['common'],
+      chunks: ['common','app'],
     }),
     new webpack.ProvidePlugin({
       $: "jquery",
