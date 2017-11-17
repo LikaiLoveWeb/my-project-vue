@@ -42,8 +42,8 @@
       },
       myEventClick:function (msg) {
        this.msg = msg;
-       console.log(this.msg)
-      }
+       console.log(this.msg);
+      },
     },
     computed:{
       reMsg:function () {
