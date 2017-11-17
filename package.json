@@ -14,9 +14,6 @@
     "APIUrl": "192.168.10.121:8090"
   },
   "dependencies": {
-    "fs": "0.0.1-security",
-    "less": "^2.7.3",
-    "less-loader": "^2.2.3",
     "vue": "^2.5.2",
     "vue-router": "^3.0.1",
     "vuex": "^3.0.0"
